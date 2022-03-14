@@ -6,6 +6,7 @@ import com.hansab.Restful.API.Entity.User;
 import com.hansab.Restful.API.Repository.UserRepository;
 import com.hansab.Restful.API.dto.CarDto;
 import com.hansab.Restful.API.dto.UserDto;
+import com.hansab.Restful.API.exception.ResourceNotFoundException;
 import com.hansab.Restful.API.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,9 +42,10 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public List<CarDto> getUserCars(int userId) throws RuntimeException {
+    public List<CarDto> getUserCars(int userId) throws ResourceNotFoundException {
         List<CarDto> carDtos = null;
-        User user = userRepository.findById(userId).orElse(null);
+        User user = userRepository.findById(userId).orElseThrow(()
+                -> new ResourceNotFoundException("There is no user with ID " + userId + " that has registered a car!"));
         if (user != null) {
             List<Car> cars = user.getCars();
             carDtos = cars.stream().map(car -> modelMapper.map(car, CarDto.class)).collect(Collectors.toList());
@@ -53,9 +55,10 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public UserDto getUserById(int userId) throws RuntimeException {
+    public UserDto getUserById(int userId) throws ResourceNotFoundException {
         UserDto userDto = null;
-        User user = userRepository.findById(userId).orElse(null);
+        User user = userRepository.findById(userId).orElseThrow(()
+                -> new ResourceNotFoundException("The user with the id: (" + userId + ") not found!"));
         if (user != null) {
             userDto = modelMapper.map(user, UserDto.class);
         }

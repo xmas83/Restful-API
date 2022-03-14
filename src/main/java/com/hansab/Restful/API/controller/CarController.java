@@ -26,20 +26,12 @@ public class CarController {
 
     @GetMapping("/cars")
     public List<CarDto> getAllCars() {
-        List<CarDto> cars = carService.getAllCars();
-        if (!cars.isEmpty()) {
-            return carService.getAllCars();
-        }
-        throw new ResourceNotFoundException("Currently, there are no cars registered in the database!");
+        return carService.getAllCars();
     }
 
 
     @GetMapping("/cars/{carId}")
     public CarDto getCar(@PathVariable("carId") int carId) {
-        CarDto car = carService.getCarById(carId);
-        if (car != null) {
-            return carService.getCarById(carId);
-        }
-        throw new ResourceNotFoundException("The car with the id: (" + carId + ") not found!");
+        return carService.getCarById(carId);
     }
 }

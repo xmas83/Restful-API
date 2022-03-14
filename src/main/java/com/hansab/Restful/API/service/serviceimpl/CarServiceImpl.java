@@ -4,6 +4,7 @@ package com.hansab.Restful.API.service.serviceimpl;
 import com.hansab.Restful.API.Entity.Car;
 import com.hansab.Restful.API.Repository.CarRepository;
 import com.hansab.Restful.API.dto.CarDto;
+import com.hansab.Restful.API.exception.ResourceNotFoundException;
 import com.hansab.Restful.API.service.CarService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,9 +40,10 @@ public class CarServiceImpl implements CarService {
 
 
     @Override
-    public CarDto getCarById(int carId) throws RuntimeException {
+    public CarDto getCarById(int carId) throws ResourceNotFoundException{
         CarDto carDto = null;
-        Car car = carRepository.findById(carId).orElse(null);
+        Car car = carRepository.findById(carId).orElseThrow(()
+                -> new ResourceNotFoundException("The car with the id: (" + carId + ") not found!"));
         if (car != null) {
             carDto = modelMapper.map(car, CarDto.class);
         }

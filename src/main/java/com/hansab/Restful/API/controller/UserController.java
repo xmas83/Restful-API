@@ -26,30 +26,18 @@ public class UserController {
 
     @GetMapping("/users")
     public List<UserDto> getAllUsers() {
-        List<UserDto> users = userService.getAllUsers();
-        if (!users.isEmpty()) {
-            return userService.getAllUsers();
-        }
-        throw new ResourceNotFoundException("Currently, there are no users registered in the database!");
+        return userService.getAllUsers();
     }
 
 
     @GetMapping("/users/{userId}/cars")
     public List<CarDto> getUserCars(@PathVariable("userId") int userId) {
-        List<CarDto> usersCars = userService.getUserCars(userId);
-        if (usersCars != null) {
-            return userService.getUserCars(userId);
-        }
-        throw new ResourceNotFoundException("There is no user with ID " + userId + " that has registered a car!");
+        return userService.getUserCars(userId);
     }
 
 
     @GetMapping("/users/{userId}")
     public UserDto getUser(@PathVariable("userId") int userId) {
-        UserDto user = userService.getUserById(userId);
-        if (user != null) {
-            return userService.getUserById(userId);
-        }
-        throw new ResourceNotFoundException("The user with the id: (" + userId + ") not found!");
+        return userService.getUserById(userId);
     }
 }
