@@ -20,10 +20,12 @@ public class CarServiceImpl implements CarService {
 
     private CarRepository carRepository;
 
+
     @Autowired
     public CarServiceImpl(CarRepository carRepository) {
         this.carRepository = carRepository;
     }
+
 
     @Override
     public List<CarDto> getAllCars() {
@@ -37,7 +39,7 @@ public class CarServiceImpl implements CarService {
 
 
     @Override
-    public CarDto getCarById(int carId) throws RuntimeException{
+    public CarDto getCarById(int carId) throws RuntimeException {
         CarDto carDto = null;
         Car car = carRepository.findById(carId).orElse(null);
         if (car != null) {

@@ -2,6 +2,7 @@ package com.hansab.Restful.API.controller;
 
 
 import com.hansab.Restful.API.dto.CarDto;
+import com.hansab.Restful.API.exception.ResourceNotFoundException;
 import com.hansab.Restful.API.service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -16,7 +17,7 @@ import java.util.List;
 @CrossOrigin("http://localhost:8081/")
 public class CarController {
 
-    private CarService carService;
+    private final CarService carService;
 
     @Autowired
     public CarController(CarService carService) {
@@ -25,11 +26,20 @@ public class CarController {
 
     @GetMapping("/cars")
     public List<CarDto> getAllCars() {
-        return carService.getAllCars();
+        List<CarDto> cars = carService.getAllCars();
+        if (!cars.isEmpty()) {
+            return carService.getAllCars();
+        }
+        throw new ResourceNotFoundException("Currently, there are no cars registered in the database!");
     }
+
 
     @GetMapping("/cars/{carId}")
     public CarDto getCar(@PathVariable("carId") int carId) {
-        return carService.getCarById(carId);
+        CarDto car = carService.getCarById(carId);
+        if (car != null) {
+            return carService.getCarById(carId);
+        }
+        throw new ResourceNotFoundException("The car with the id: (" + carId + ") not found!");
     }
 }

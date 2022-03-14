@@ -23,7 +23,6 @@ public class Car {
     @Column
     private String numberplate;
 
-
     public Car() {
 
     }

@@ -10,9 +10,9 @@ import java.util.List;
 @Service
 public interface UserService {
 
-    public List<UserDto> getAllUsers();
+    List<UserDto> getAllUsers();
 
-    public List<CarDto> getUserCars(int userId) throws RuntimeException;
+    List<CarDto> getUserCars(int userId);
 
-    public UserDto getUserById(int userId) throws RuntimeException;
+    UserDto getUserById(int userId);
 }
